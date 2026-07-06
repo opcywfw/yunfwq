@@ -1,32 +1,20 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>正在返回首页</title>
-
-  <!-- SEO/浏览器级跳转（0秒） -->
-  <meta http-equiv="refresh" content="0; url=https://kubk.net">
-
-  <!-- JS兜底跳转 -->
-  <script>
-    window.location.replace("https://kubk.net");
-  </script>
-
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      color: #666;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>正在打开</title>
+    <!-- 使用meta标签实现自动跳转，0秒后跳转到目标域名 -->
+    <meta http-equiv="refresh" content="0;url=https://kubk.net">
 </head>
-
 <body>
-  <div>正在返回首页，请稍候...</div>
+    <!-- 若meta标签跳转失败，使用JavaScript进行补充跳转 -->
+    <script type="text/javascript">
+        // 立即跳转到指定域名
+        window.location.href = "https://kubk.net";
+    </script>
+    
+    <!-- 为防止跳转失败，显示提示信息 -->
+    <p>正在为您跳转至目标页面... 若未自动跳转，请点击<a href="https://kubk.net">这里</a></p>
 </body>
 </html>
