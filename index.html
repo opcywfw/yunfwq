@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>云服务器选型指南</title>
+  <style>
+    :root{
+      --primary:#2f61ff;
+      --primary-dark:#214fe0;
+      --primary-light:#5f8fff;
+      --text:#0f1b3d;
+      --text-2:#1a2950;
+      --muted:#6e7b98;
+      --muted-2:#8c97b2;
+      --border:#e8edf6;
+      --bg:#f7f9fd;
+      --bg-soft:#f4f7fc;
+      --white:#ffffff;
+      --shadow:0 10px 30px rgba(29, 55, 130, .08);
+      --shadow-strong:0 18px 44px rgba(30, 60, 150, .14);
+      --radius:18px;
+      --container:1320px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+      color:var(--text);
+      background:linear-gradient(180deg,#f6f9fe 0%, #ffffff 260px);
+    }
+
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;display:block}
+
+    .container{
+      width:min(var(--container), calc(100% - 64px));
+      margin:0 auto;
+    }
+
+    /* ===== Header ===== */
+    .site-header{
+      position:sticky;
+      top:0;
+      z-index:100;
+      background:rgba(255,255,255,.88);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(230,236,246,.9);
+    }
+    .header-inner{
+      height:76px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:800;
+      font-size:20px;
+      color:var(--primary);
+      letter-spacing:.2px;
+      white-space:nowrap;
+    }
+    .brand svg{
+      width:34px;height:34px;
+      flex:0 0 auto;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .nav-links{
+      display:flex;
+      align-items:center;
+      gap:18px;
+      margin-right:18px;
+    }
+    .nav-links a{
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      height:76px;
+      padding:0 8px;
+      color:#1d2747;
+      font-size:16px;
+      font-weight:600;
+    }
+    .nav-links a.active{
+      color:#0f1b3d;
+    }
+    .nav-links a.active::after{
+      content:"";
+      position:absolute;
+      left:50%;
+      bottom:0;
+      transform:translateX(-50%);
+      width:34px;
+      height:3px;
+      border-radius:99px;
+      background:var(--primary);
+    }
+    .consult-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:124px;
+      height:46px;
+      padding:0 20px;
+      border-radius:14px;
+      background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+      color:#fff;
+      font-size:15px;
+      font-weight:700;
+      box-shadow:0 10px 24px rgba(47,97,255,.22);
+      transition:.22s ease;
+    }
+    .consult-btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 28px rgba(47,97,255,.28);
+    }
+    a:hover{
+      color:#ff8a00;
+    }
+    .highlight-red{
+      color:#e60000;
+    }
+
+    /* ===== Hero ===== */
+    .hero-wrap{
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-wrap::before{
+      content:"";
+      position:absolute;
+      inset:auto -10% 0 auto;
+      width:720px;
+      height:300px;
+      background:
+        radial-gradient(ellipse at center, rgba(93, 130, 255, .09) 0%, rgba(93,130,255,0) 68%);
+      pointer-events:none;
+    }
+    .hero{
+      min-height:560px;
+      display:grid;
+      grid-template-columns: 1.03fr .97fr;
+      align-items:center;
+      gap:34px;
+      padding:42px 0 28px;
+    }
+
+    .hero-copy{
+      padding:20px 0 10px 22px;
+    }
+    .hero-copy h1{
+      margin:0;
+      font-size:68px;
+      line-height:1.12;
+      font-weight:900;
+      letter-spacing:-1px;
+      color:#0b1838;
+    }
+    .hero-copy h1 .highlight{
+      display:block;
+      margin-top:6px;
+      color:var(--primary);
+    }
+    .hero-copy p{
+      max-width:680px;
+      margin:24px 0 0;
+      font-size:18px;
+      line-height:1.9;
+      color:var(--muted);
+      font-weight:500;
+    }
+
+    .hero-actions{
+      display:flex;
+      gap:18px;
+      margin-top:28px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      height:56px;
+      padding:0 28px;
+      border-radius:16px;
+      font-size:18px;
+      font-weight:700;
+      transition:.2s ease;
+      border:1px solid transparent;
+      cursor:pointer;
+    }
+    .btn-primary{
+      background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+      color:#fff;
+      box-shadow:0 14px 30px rgba(47,97,255,.2);
+    }
+    .btn-primary:hover{
+      transform:translateY(-1px);
+      box-shadow:0 18px 34px rgba(47,97,255,.25);
+    }
+    .btn-secondary{
+      color:#243252;
+      background:rgba(255,255,255,.92);
+      border-color:#e6ebf5;
+      box-shadow:0 8px 24px rgba(22,34,77,.05);
+    }
+    .btn-secondary:hover{
+      border-color:#cfd8eb;
+      background:#fff;
+    }
+
+    .hero-features{
+      display:flex;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:30px;
+      margin-top:28px;
+      color:#50607f;
+      font-size:16px;
+      font-weight:600;
+    }
+    .hero-feature{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      white-space:nowrap;
+    }
+    .hero-feature .icon{
+      width:26px;height:26px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(180deg,#eff5ff,#dfe9ff);
+      box-shadow:inset 0 0 0 1px rgba(47,97,255,.1);
+      color:var(--primary);
+      flex:0 0 auto;
+    }
+    .hero-feature .icon svg{
+      width:15px;height:15px;
+    }
+
+    /* ===== Right Illustration ===== */
+    .hero-visual{
+      position:relative;
+      height:480px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .visual-stage{
+      position:relative;
+      width:600px;
+      height:420px;
+      transform:translateX(12px);
+    }
+
+    .base-shadow{
+      position:absolute;
+      left:50%;
+      bottom:10px;
+      transform:translateX(-50%);
+      width:430px;
+      height:56px;
+      background:radial-gradient(ellipse at center, rgba(77,104,198,.22) 0%, rgba(77,104,198,.05) 55%, rgba(77,104,198,0) 72%);
+      filter:blur(8px);
+    }
+
+    .plate{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      width:380px;
+      border-radius:26px;
+      background:linear-gradient(180deg,#fafdff 0%, #eef4ff 100%);
+      border:1px solid rgba(210,223,247,.9);
+      box-shadow:
+        0 18px 36px rgba(35,70,170,.08),
+        inset 0 1px 0 rgba(255,255,255,.85);
+    }
+    .plate::before{
+      content:"";
+      position:absolute;
+      inset:12px;
+      border-radius:18px;
+      border:1px solid rgba(148,179,255,.18);
+      pointer-events:none;
+    }
+    .plate-bottom{
+      bottom:34px;
+      height:92px;
+      background:
+        linear-gradient(180deg,#f9fcff 0%, #edf3ff 100%);
+    }
+    .plate-middle{
+      bottom:90px;
+      width:320px;
+      height:82px;
+      border-radius:24px;
+    }
+    .plate-top{
+      bottom:146px;
+      width:260px;
+      height:70px;
+      border-radius:22px;
+    }
+
+    .server-stack{
+      position:absolute;
+      left:50%;
+      bottom:106px;
+      transform:translateX(-50%);
+      width:240px;
+      z-index:4;
+    }
+    .server{
+      position:relative;
+      height:58px;
+      border-radius:18px;
+      margin-bottom:14px;
+      background:
+        linear-gradient(180deg,#ffffff 0%, #f6f9ff 46%, #ecf2ff 100%);
+      border:1px solid rgba(210,223,247,.95);
+      box-shadow:
+        0 18px 30px rgba(43,73,162,.07),
+        inset 0 1px 0 rgba(255,255,255,.9);
+    }
+    .server:last-child{margin-bottom:0}
+    .server::before{
+      content:"";
+      position:absolute;
+      left:18px;
+      right:18px;
+      top:12px;
+      height:1px;
+      background:linear-gradient(90deg,rgba(47,97,255,.08),rgba(47,97,255,.2),rgba(47,97,255,.08));
+    }
+    .server::after{
+      content:"";
+      position:absolute;
+      left:0;right:0;bottom:0;
+      height:12px;
+      border-radius:0 0 18px 18px;
+      background:linear-gradient(180deg, rgba(80,120,255,.08), rgba(47,97,255,.12));
+    }
+    .server .dots{
+      position:absolute;
+      left:18px;
+      top:22px;
+      display:flex;
+      gap:8px;
+    }
+    .server .dots span{
+      width:5px;height:5px;border-radius:50%;
+      background:#5b88ff;
+      opacity:.8;
+    }
+    .server .ports{
+      position:absolute;
+      right:18px;
+      top:18px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .server .ports i{
+      display:block;
+      width:16px;
+      height:7px;
+      border-radius:3px;
+      background:linear-gradient(180deg,#a7bfff,#7aa0ff);
+      opacity:.75;
+    }
+
+    .hero-glow{
+      position:absolute;
+      left:50%;
+      bottom:76px;
+      transform:translateX(-50%);
+      width:278px;
+      height:34px;
+      border-radius:999px;
+      background:linear-gradient(90deg,#3d67ff,#2d5dff 30%, #4b85ff 80%);
+      box-shadow:0 0 30px rgba(47,97,255,.28);
+      z-index:2;
+    }
+
+    .cloud{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      top:28px;
+      width:180px;
+      height:110px;
+      z-index:6;
+      filter:drop-shadow(0 16px 26px rgba(40,75,180,.16));
+    }
+    .cloud-shape{
+      position:absolute;
+      inset:0;
+    }
+    .cloud-shape::before,
+    .cloud-shape::after{
+      content:"";
+      position:absolute;
+      background:linear-gradient(180deg,#ffffff 0%,#f2f6ff 100%);
+      border:1px solid rgba(219,228,248,.95);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.95);
+    }
+    .cloud-shape::before{
+      width:118px;height:64px;
+      left:30px; top:36px;
+      border-radius:36px;
+    }
+    .cloud-shape::after{
+      width:70px;height:70px;
+      left:72px; top:8px;
+      border-radius:50%;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.95),
+        -34px 20px 0 0 #fff,
+        -34px 20px 0 1px rgba(219,228,248,.95),
+        34px 26px 0 0 #fff,
+        34px 26px 0 1px rgba(219,228,248,.95);
+    }
+
+    .upload-arrow{
+      position:absolute;
+      left:50%;
+      top:42px;
+      transform:translateX(-50%);
+      width:42px;
+      height:54px;
+      z-index:7;
+    }
+    .upload-arrow::before{
+      content:"";
+      position:absolute;
+      left:14px; right:14px; bottom:0;
+      height:24px;
+      border-radius:8px;
+      background:linear-gradient(180deg,#5f90ff,#2d5dff);
+      box-shadow:0 8px 18px rgba(47,97,255,.26);
+    }
+    .upload-arrow::after{
+      content:"";
+      position:absolute;
+      left:0; right:0; top:0;
+      margin:auto;
+      width:0;height:0;
+      border-left:21px solid transparent;
+      border-right:21px solid transparent;
+      border-bottom:24px solid #2d5dff;
+      filter:drop-shadow(0 6px 14px rgba(47,97,255,.18));
+    }
+
+    .floating-card{
+      position:absolute;
+      background:linear-gradient(180deg,rgba(255,255,255,.86),rgba(245,249,255,.9));
+      border:1px solid rgba(216,227,248,.94);
+      box-shadow:0 18px 36px rgba(38,66,155,.08);
+      backdrop-filter:blur(8px);
+      z-index:1;
+    }
+    .floating-card.chart{
+      width:92px;height:110px;
+      left:60px; top:126px;
+      border-radius:18px;
+      padding:16px 14px;
+    }
+    .floating-card.chart .bars{
+      display:flex;align-items:flex-end;gap:8px;height:54px;margin-top:18px;
+    }
+    .floating-card.chart .bars span{
+      display:block;width:10px;border-radius:999px 999px 3px 3px;
+      background:linear-gradient(180deg,#8fb0ff,#4e7cff);
+    }
+    .floating-card.chart .bars span:nth-child(1){height:24px}
+    .floating-card.chart .bars span:nth-child(2){height:36px}
+    .floating-card.chart .bars span:nth-child(3){height:28px}
+    .floating-card.chart .bars span:nth-child(4){height:46px}
+    .floating-card.chart .bars span:nth-child(5){height:32px}
+
+    .floating-card.shield{
+      width:66px;height:66px;
+      right:34px; bottom:112px;
+      border-radius:20px;
+      display:grid;place-items:center;
+    }
+    .floating-card.shield svg{
+      width:26px;height:26px;color:var(--primary);
+    }
+
+    .floating-card.ring{
+      width:70px;height:70px;
+      right:24px; top:162px;
+      border-radius:22px;
+      display:grid;place-items:center;
+    }
+    .floating-card.ring .pie{
+      width:34px;height:34px;border-radius:50%;
+      background:conic-gradient(#2f61ff 0 62%, #ffb64d 62% 84%, #dfe7fb 84% 100%);
+      position:relative;
+    }
+    .floating-card.ring .pie::after{
+      content:"";
+      position:absolute; inset:8px;
+      border-radius:50%;
+      background:#fff;
+    }
+
+    .orb{
+      position:absolute;
+      border-radius:50%;
+      background:radial-gradient(circle at 35% 35%, rgba(255,255,255,.95), rgba(232,240,255,.9) 55%, rgba(213,226,255,.8));
+      border:1px solid rgba(212,224,248,.92);
+      box-shadow:0 12px 24px rgba(50,80,170,.08);
+    }
+    .orb.orb-a{left:72px; bottom:78px; width:32px; height:32px;}
+    .orb.orb-b{left:54px; bottom:90px; width:12px; height:12px;}
+    .orb.orb-c{left:98px; bottom:98px; width:8px; height:8px;}
+
+    .wire{
+      position:absolute;
+      border:1px solid rgba(147,177,255,.3);
+      border-top:none;
+      border-left:none;
+      border-radius:0 0 24px 0;
+      z-index:0;
+    }
+    .wire.w1{
+      width:120px;height:80px;
+      left:112px;top:194px;
+      transform:rotate(4deg);
+    }
+    .wire.w2{
+      width:140px;height:100px;
+      right:116px;top:220px;
+      transform:rotate(-4deg);
+    }
+    .wire.w3{
+      width:182px;height:96px;
+      left:208px;top:86px;
+      transform:rotate(2deg);
+    }
+
+    /* ===== section common ===== */
+    .section{
+      padding:34px 0 0;
+    }
+
+    .section-head{
+      text-align:center;
+      margin-bottom:26px;
+    }
+    .section-head h2{
+      margin:0;
+      font-size:32px;
+      line-height:1.2;
+      font-weight:900;
+      color:#101d40;
+      letter-spacing:-.4px;
+    }
+    .section-head p{
+      margin:10px 0 0;
+      font-size:17px;
+      color:var(--muted);
+      font-weight:500;
+    }
+
+    /* ===== vendor cards ===== */
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(5, 1fr);
+      gap:20px;
+    }
+    .vendor-card{
+      background:rgba(255,255,255,.96);
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:22px 22px 20px;
+      box-shadow:0 10px 30px rgba(23,42,90,.04);
+      transition:.25s ease;
+      min-height:338px;
+    }
+    .vendor-card:hover{
+      transform:translateY(-4px);
+      box-shadow:var(--shadow-strong);
+      border-color:#dbe5f7;
+    }
+    .vendor-top{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-height:42px;
+    }
+    .vendor-logo{
+      font-size:18px;
+      font-weight:900;
+      letter-spacing:.2px;
+      color:#14244f;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      line-height:1;
+    }
+    .vendor-logo .mark{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:34px;
+      height:28px;
+      border-radius:10px;
+      font-size:13px;
+      font-weight:900;
+    }
+
+    .mark-aliyun{color:#ff6a00;border:2px solid #ff6a00;background:#fff7f0}
+    .mark-tencent{color:#2f61ff;background:#eff4ff}
+    .mark-yisu{color:#4d78d8;background:#eff4ff}
+    .mark-ucloud{color:#2f61ff;background:#eff4ff}
+    .mark-vultr{color:#2f61ff;background:#eff4ff}
+
+    .vendor-badge{
+      margin-left:auto;
+      flex:0 0 auto;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      line-height:1;
+      font-weight:700;
+      color:#5578cc;
+      background:#eef3ff;
+      border:1px solid #d9e4ff;
+      white-space:nowrap;
+    }
+    .vendor-name{
+      margin-top:16px;
+      font-size:18px;
+      font-weight:800;
+      color:#16264d;
+    }
+    .vendor-desc{
+      margin-top:12px;
+      font-size:15px;
+      line-height:1.8;
+      color:var(--muted);
+      min-height:76px;
+      font-weight:500;
+    }
+    .vendor-list{
+      list-style:none;
+      padding:0;
+      margin:12px 0 0;
+    }
+    .vendor-list li{
+      position:relative;
+      padding-left:18px;
+      margin-top:8px;
+      color:#445374;
+      font-size:14px;
+      line-height:1.6;
+      font-weight:600;
+    }
+    .vendor-list li::before{
+      content:"";
+      position:absolute;
+      left:0; top:8px;
+      width:7px;height:7px;
+      border-radius:50%;
+      background:linear-gradient(180deg,#6390ff,#2f61ff);
+      box-shadow:0 0 0 3px rgba(47,97,255,.08);
+    }
+    .vendor-link{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      margin-top:18px;
+      color:var(--primary);
+      font-size:15px;
+      font-weight:800;
+    }
+
+    /* ===== process ===== */
+    .process-wrap{
+      margin-top:38px;
+      border-radius:26px;
+      overflow:hidden;
+      background:
+        linear-gradient(135deg,#213da8 0%, #2b58dd 58%, #356cff 100%);
+      box-shadow:0 18px 40px rgba(35,60,170,.16);
+      position:relative;
+    }
+    .process-wrap::before{
+      content:"";
+      position:absolute;
+      right:-80px;
+      bottom:-60px;
+      width:340px;
+      height:180px;
+      background:radial-gradient(circle at center, rgba(255,255,255,.15) 0%, rgba(255,255,255,0) 70%);
+      pointer-events:none;
+    }
+    .process-wrap::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(90deg, transparent 0, transparent 88%, rgba(255,255,255,.06) 100%);
+      pointer-events:none;
+    }
+
+    .process-inner{
+      position:relative;
+      z-index:2;
+      padding:26px 34px 28px;
+    }
+    .process-title{
+      text-align:center;
+      font-size:22px;
+      font-weight:900;
+      color:#fff;
+      margin-bottom:22px;
+      letter-spacing:.2px;
+    }
+    .steps{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:14px;
+      align-items:start;
+    }
+    .step{
+      position:relative;
+      text-align:center;
+      color:#fff;
+      padding:0 10px;
+    }
+    .step:not(:last-child)::after{
+      content:"";
+      position:absolute;
+      top:30px;
+      right:-12px;
+      width:26px;
+      height:12px;
+      background:
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='12' viewBox='0 0 26 12'><path d='M1 6h20' stroke='rgba(255,255,255,0.72)' stroke-width='1.8' stroke-linecap='round'/><path d='M17 1l7 5-7 5' fill='none' stroke='rgba(255,255,255,0.82)' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/></svg>") center/contain no-repeat;
+      opacity:.9;
+    }
+    .step-icon{
+      width:60px;height:60px;
+      margin:0 auto 12px;
+      border-radius:50%;
+      background:rgba(255,255,255,.96);
+      display:grid;
+      place-items:center;
+      box-shadow:0 8px 18px rgba(10,20,80,.14);
+      color:#2458ff;
+    }
+    .step-icon svg{width:28px;height:28px}
+    .step h3{
+      margin:0;
+      font-size:18px;
+      font-weight:800;
+      color:#fff;
+    }
+    .step p{
+      margin:8px 0 0;
+      font-size:14px;
+      line-height:1.7;
+      color:rgba(255,255,255,.88);
+      font-weight:500;
+      min-height:48px;
+    }
+
+    /* ===== scene ===== */
+    .scene-section{
+      padding-top:48px;
+    }
+    .scene-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+      margin-top:26px;
+    }
+    .scene-card{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      padding:20px 22px;
+      border-radius:18px;
+      background:#fff;
+      border:1px solid var(--border);
+      box-shadow:0 8px 24px rgba(22,34,77,.04);
+      transition:.22s ease;
+    }
+    .scene-card:hover{
+      transform:translateY(-3px);
+      box-shadow:var(--shadow);
+    }
+    .scene-icon{
+      width:50px;height:50px;
+      border-radius:14px;
+      background:linear-gradient(180deg,#f1f6ff,#e4edff);
+      display:grid;
+      place-items:center;
+      color:var(--primary);
+      flex:0 0 auto;
+    }
+    .scene-icon svg{width:24px;height:24px}
+    .scene-title{
+      font-size:18px;
+      font-weight:800;
+      color:#12214a;
+      margin:0 0 4px;
+    }
+    .scene-desc{
+      margin:0;
+      font-size:14px;
+      line-height:1.7;
+      color:var(--muted);
+      font-weight:500;
+    }
+
+    /* ===== faq ===== */
+    .faq-section{
+      padding-top:50px;
+      padding-bottom:70px;
+    }
+    .faq-list{
+      display:grid;
+      gap:14px;
+      margin-top:26px;
+      max-width:900px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+    .faq-item{
+      border:1px solid var(--border);
+      border-radius:18px;
+      overflow:hidden;
+      background:#fff;
+      box-shadow:0 8px 22px rgba(22,34,77,.035);
+    }
+    .faq-q{
+      width:100%;
+      border:none;
+      outline:none;
+      background:#fff;
+      padding:22px 24px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      font-size:18px;
+      font-weight:800;
+      color:#11214a;
+      cursor:pointer;
+      text-align:left;
+    }
+    .faq-q span:last-child{
+      color:var(--primary);
+      font-size:20px;
+      transition:.2s ease;
+    }
+    .faq-item.active .faq-q span:last-child{
+      transform:rotate(45deg);
+    }
+    .faq-a{
+      display:none;
+      padding:0 24px 22px;
+      font-size:15px;
+      line-height:1.85;
+      color:var(--muted);
+      font-weight:500;
+    }
+    .faq-item.active .faq-a{
+      display:block;
+    }
+
+    /* ===== footer ===== */
+    .site-footer{
+      border-top:1px solid var(--border);
+      background:#fff;
+    }
+    .footer-inner{
+      height:78px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#9ba8c2;
+      font-size:15px;
+      font-weight:600;
+    }
+
+    /* ===== responsive ===== */
+    @media (max-width: 1380px){
+      .hero-copy h1{font-size:58px}
+      .cards{grid-template-columns:repeat(3,1fr)}
+      .steps{grid-template-columns:repeat(5,1fr)}
+      .scene-grid{grid-template-columns:repeat(3,1fr)}
+      .visual-stage{transform:scale(.93) translateX(16px)}
+    }
+
+    @media (max-width: 1100px){
+      .container{width:min(var(--container), calc(100% - 32px))}
+      .nav-links{display:none}
+      .hero{
+        grid-template-columns:1fr;
+        padding-top:32px;
+      }
+      .hero-copy{
+        padding-left:0;
+        text-align:center;
+      }
+      .hero-copy p{margin-left:auto;margin-right:auto}
+      .hero-actions,
+      .hero-features{justify-content:center}
+      .hero-copy h1{font-size:48px}
+      .hero-visual{height:420px}
+      .visual-stage{transform:scale(.86)}
+      .cards{grid-template-columns:repeat(2,1fr)}
+      .steps{grid-template-columns:1fr; gap:26px}
+      .step:not(:last-child)::after{display:none}
+      .scene-grid{grid-template-columns:1fr 1fr}
+    }
+
+    @media (max-width: 680px){
+      .container{width:calc(100% - 24px)}
+      .brand{font-size:17px}
+      .consult-btn{min-width:auto;padding:0 16px;height:42px;font-size:14px}
+      .hero-copy h1{font-size:36px}
+      .hero-copy p{font-size:15px}
+      .btn{height:48px;padding:0 18px;font-size:16px}
+      .hero-features{gap:14px 18px;font-size:14px}
+      .hero-visual{height:330px}
+      .visual-stage{transform:scale(.62)}
+      .section-head h2{font-size:26px}
+      .cards{grid-template-columns:1fr}
+      .scene-grid{grid-template-columns:1fr}
+      .process-inner{padding:22px 18px}
+      .faq-q{font-size:16px;padding:18px}
+      .faq-a{padding:0 18px 18px}
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#">
+        <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <path d="M15.6 34.7h17.2c5.1 0 9.2-4 9.2-9 0-4.4-3.3-8.1-7.6-8.9A11.5 11.5 0 0 0 13 14a9.4 9.4 0 0 0-9.3 9.4c0 6.2 5.2 11.3 11.9 11.3Z" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        云服务器选型指南
+      </a>
+
+      <nav class="nav">
+        <div class="nav-links">
+          <a href="#" class="active">首页</a>
+          <a href="#vendors">云服务推荐</a>
+          <a href="#guide">选型指南</a>
+          <a href="#scenes">使用场景</a>
+          <a href="#faq">常见问题</a>
+        </div>
+    
+    <style>
+/* 斜向流光动画 */
+@keyframes lightShine {
+  0% { transform: skewX(-25deg) translateX(-150%); }
+  100% { transform: skewX(-25deg) translateX(150%); }
+}
+</style>
+
+<a href="https://www.aliyun.com/minisite/goods?userCode=xbifxhv7" target="_blank" class="consult-btn" style="
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+">
+    阿里云&nbsp;<span style="font-size:1.4em;font-weight:bold">8折</span>&nbsp;专属入口（限量补贴）
+    <!-- 斜向扫光层 -->
+    <span style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 40%;
+        height: 100%;
+        background: linear-gradient(90deg,transparent,rgba(255,255,255,0.22),transparent);
+        animation: lightShine 2.6s linear infinite;
+    "></span>
+</a>
+
+
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero-wrap">
+      <div class="container hero">
+        <div class="hero-copy">
+          <h1>
+            选择合适的云服务器
+            <span class="highlight">成就你的每一个想法</span>
+          </h1>
+          <p>
+            对比主流云服务厂商，找到最适合您业务需求的云服务器，
+            无论是个人网站、企业应用，还是全球业务部署，我们都能为您提供专业建议。
+          </p>
+
+          <div class="hero-actions">
+            <a href="#vendors" class="btn btn-primary">开始选型 →</a>
+            <a href="#guide" class="btn btn-secondary">了解更多</a>
+          </div>
+
+          <div class="hero-features">
+            <div class="hero-feature">
+              <span class="icon">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M12 3l7 3v5c0 4.7-2.9 8-7 10-4.1-2-7-5.3-7-10V6l7-3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              安全稳定
+            </div>
+            <div class="hero-feature">
+              <span class="icon">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M6 15V9m6 10V5m6 12v-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </span>
+              弹性伸缩
+            </div>
+            <div class="hero-feature">
+              <span class="icon">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 0c2.4 2.3 3.7 5.4 3.7 9S14.4 18.7 12 21m0-18c-2.4 2.3-3.7 5.4-3.7 9S9.6 18.7 12 21M3 12h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </span>
+              全球部署
+            </div>
+            <div class="hero-feature">
+              <span class="icon">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/>
+                  <path d="M12 8v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </span>
+              7×24 技术支持
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="visual-stage">
+            <div class="wire w1"></div>
+            <div class="wire w2"></div>
+            <div class="wire w3"></div>
+
+            <div class="floating-card chart">
+              <div class="bars">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+
+            <div class="floating-card shield">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 3l6 2.6v4.8c0 4-2.4 6.8-6 8.6-3.6-1.8-6-4.6-6-8.6V5.6L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              </svg>
+            </div>
+
+            <div class="floating-card ring">
+              <div class="pie"></div>
+            </div>
+
+            <div class="orb orb-a"></div>
+            <div class="orb orb-b"></div>
+            <div class="orb orb-c"></div>
+
+            <div class="cloud">
+              <div class="cloud-shape"></div>
+              <div class="upload-arrow"></div>
+            </div>
+
+            <div class="plate plate-bottom"></div>
+            <div class="plate plate-middle"></div>
+            <div class="plate plate-top"></div>
+
+            <div class="hero-glow"></div>
+
+            <div class="server-stack">
+              <div class="server">
+                <div class="dots"><span></span><span></span><span></span></div>
+                <div class="ports"><i></i><i></i><i></i></div>
+              </div>
+              <div class="server">
+                <div class="dots"><span></span><span></span><span></span></div>
+                <div class="ports"><i></i><i></i><i></i></div>
+              </div>
+              <div class="server">
+                <div class="dots"><span></span><span></span><span></span></div>
+                <div class="ports"><i></i><i></i><i></i></div>
+              </div>
+            </div>
+
+            <div class="base-shadow"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vendors -->
+    <section class="section" id="vendors">
+      <div class="container">
+        <div class="section-head">
+          <h2>主流云服务厂商推荐</h2>
+          <p>精选国内外优质云服务商，满足不同场景需求</p>
+        </div>
+
+        <div class="cards">
+          <article class="vendor-card">
+            <div class="vendor-top">
+              <div class="vendor-logo" style="color:#ff6a00;">
+                <span class="mark mark-aliyun">⌜⌟</span>
+                阿里云
+              </div>
+              <span class="vendor-badge" style="color:#ff8a33;background:#fff4ea;border-color:#ffe0bf;">企业首选</span>
+            </div>
+            <div class="vendor-desc">
+              国内领先的云计算服务提供商，产品丰富、生态完善，性能稳定。
+            </div>
+            <ul class="vendor-list">
+              <li>稳定可靠的基础设施</li>
+              <li>丰富的产品生态</li>
+              <li>完善的安全体系</li>
+            </ul>
+            <a href="https://www.aliyun.com/minisite/goods?userCode=xbifxhv7" target="_blank" class="vendor-link"> 阿里云8折专属入口，限量补贴，速度领！ →</a>
+          </article>
+
+          <article class="vendor-card">
+            <div class="vendor-top">
+              <div class="vendor-logo">
+                <span class="mark mark-tencent">☁</span>
+                腾讯云
+              </div>
+              <span class="vendor-badge">生态优势</span>
+            </div>
+            <div class="vendor-desc">
+              依托腾讯生态，提供全面的云服务解决方案。
+            </div>
+            <ul class="vendor-list">
+              <li>与微信生态深度集成</li>
+              <li>优质 CDN 加速</li>
+              <li>性价比高</li>
+            </ul>
+            <a href="https://cloud.tencent.com/act/cps/redirect?redirect=2446&cps_key=8eb5bd7fecaebaa8c13d45dcda49294d&from=console" target="_blank" class="vendor-link">腾讯云特惠专区，查看详情 →</a>
+          </article>
+
+          <article class="vendor-card">
+            <div class="vendor-top">
+              <div class="vendor-logo" style="color:#4d78d8;">
+                <span class="mark mark-yisu">∞</span>
+                亿速云
+              </div>
+              <span class="vendor-badge">性价比之选</span>
+            </div>
+            <div class="vendor-desc">
+              专注云计算服务，提供高性价比的云服务器。
+            </div>
+            <ul class="vendor-list">
+              <li>价格实惠</li>
+              <li>配置灵活</li>
+              <li>服务响应快</li>
+            </ul>
+            <a href="https://www.yisu.com/reg/?partner=RjIO6" target="_blank"  class="vendor-link">亿速云领红包优惠券，查看详情 →</a>
+          </article>
+
+          <article class="vendor-card">
+            <div class="vendor-top">
+              <div class="vendor-logo" style="color:#2f61ff;">
+                <span style="font-size:19px;font-weight:900;">UCLOUD</span>
+              </div>
+              <span class="vendor-badge">企业级服务</span>
+            </div>
+            <div class="vendor-name">UCloud 优刻得</div>
+            <div class="vendor-desc">
+              中文安全的云计算服务商，专注企业级服务。
+            </div>
+            <ul class="vendor-list">
+              <li>中文安全</li>
+              <li>混合云解决方案</li>
+              <li>专业技术支持</li>
+            </ul>
+            <a href="https://passport.ucloud.cn?cps_code=C1x43AB84293347" target="_blank" class="vendor-link">查看详情 →</a>
+          </article>
+
+          <article class="vendor-card">
+            <div class="vendor-top">
+              <div class="vendor-logo">
+                <span class="mark mark-vultr">V</span>
+                VULTR
+              </div>
+              <span class="vendor-badge">海外优选</span>
+            </div>
+            <div class="vendor-name">Vultr</div>
+            <div class="vendor-desc">
+              全球化云服务提供商，部署快速简单，适合出海业务。
+            </div>
+            <ul class="vendor-list">
+              <li>全球节点覆盖</li>
+              <li>按小时计费</li>
+              <li>支持<span class="highlight-red">支付宝</span>付款，适合不需要实名认证的用户</li>
+            </ul>
+            <a href="https://www.vultr.com/?ref=9911017-9J" target="_blank" class="vendor-link">此链接注册可以免费获得300美元来试用，查看详情 →</a>
+          </article>
+        </div>
+
+        <!-- Process -->
+        <div class="process-wrap" id="guide">
+          <div class="process-inner">
+            <div class="process-title">如何选择适合的云服务器？</div>
+
+            <div class="steps">
+              <div class="step">
+                <div class="step-icon">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/>
+                    <path d="M15.8 15.8 20 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M11 8v3l2 1.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <h3>明确需求</h3>
+                <p>确定业务类型、预期流量<br>和技术要求</p>
+              </div>
+
+              <div class="step">
+                <div class="step-icon">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <rect x="4" y="5" width="16" height="4" rx="1.2" stroke="currentColor" stroke-width="1.8"/>
+                    <rect x="4" y="10" width="16" height="4" rx="1.2" stroke="currentColor" stroke-width="1.8"/>
+                    <rect x="4" y="15" width="16" height="4" rx="1.2" stroke="currentColor" stroke-width="1.8"/>
+                    <circle cx="8" cy="7" r="1" fill="currentColor"/>
+                    <circle cx="8" cy="12" r="1" fill="currentColor"/>
+                    <circle cx="8" cy="17" r="1" fill="currentColor"/>
+                  </svg>
+                </div>
+                <h3>选择配置</h3>
+                <p>根据需求选择合适的 CPU、<br>内存、存储配置</p>
+              </div>
+
+              <div class="step">
+                <div class="step-icon">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M12 20s6-5 6-10a6 6 0 1 0-12 0c0 5 6 10 6 10Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                    <circle cx="12" cy="10" r="2.2" stroke="currentColor" stroke-width="1.8"/>
+                  </svg>
+                </div>
+                <h3>地域选择</h3>
+                <p>选择靠近用户群体的地域，<br>降低访问延迟</p>
+              </div>
+
+              <div class="step">
+                <div class="step-icon">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M8 7h8M12 4v16M8.2 17.2c.9 1.1 2.2 1.8 3.8 1.8 2.4 0 4-1.3 4-3.3 0-1.8-1.2-2.7-3.5-3.2l-1-.2c-1.9-.4-3-1.2-3-2.8 0-1.9 1.5-3.2 3.8-3.2 1.5 0 2.6.5 3.5 1.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <h3>成本预算</h3>
+                <p>根据预算选择合适的计费<br>方式和配置</p>
+              </div>
+
+              <div class="step">
+                <div class="step-icon">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <rect x="5" y="4.5" width="14" height="15" rx="2" stroke="currentColor" stroke-width="1.8"/>
+                    <path d="M8.5 9.5h7M8.5 13h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="m9.3 17 1.6 1.6 3.8-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                <h3>测试部署</h3>
+                <p>先进行测试部署，确保满足<br>业务需求</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scenes -->
+    <section class="section scene-section" id="scenes">
+      <div class="container">
+        <div class="section-head">
+          <h2>适用场景</h2>
+          <p>不同场景下的云服务器应用方案</p>
+        </div>
+
+        <div class="scene-grid">
+          <div class="scene-card">
+            <div class="scene-icon">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M4 17.5h16M6.5 17.5V9.2a1 1 0 0 1 .3-.7l4.5-4.3a1 1 0 0 1 1.4 0l4.5 4.3a1 1 0 0 1 .3.7v8.3" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="scene-title">个人建站 / 博客</h3>
+              <p class="scene-desc">适合 WordPress、个人博客、作品展示站、资讯站点等轻量业务。</p>
+            </div>
+          </div>
+
+          <div class="scene-card">
+            <div class="scene-icon">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="5" y="4" width="14" height="16" rx="2" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M8 8h8M8 12h8M8 16h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="scene-title">企业官网系统</h3>
+              <p class="scene-desc">适用于品牌官网、企业门户、营销落地页、预约与表单系统。</p>
+            </div>
+          </div>
+
+          <div class="scene-card">
+            <div class="scene-icon">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M8 7 4 12l4 5M16 7l4 5-4 5M13.5 5l-3 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="scene-title">API / 后端服务</h3>
+              <p class="scene-desc">支持接口服务、管理后台、微服务、数据处理任务与开发测试环境。</p>
+            </div>
+          </div>
+
+          <div class="scene-card">
+            <div class="scene-icon">
+              <svg viewBox="0 0 24 24" fill="none">
+                <rect x="7" y="3.5" width="10" height="17" rx="2.5" stroke="currentColor" stroke-width="1.8"/>
+                <circle cx="12" cy="16.5" r="1" fill="currentColor"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="scene-title">小程序 / 应用后端</h3>
+              <p class="scene-desc">适合微信小程序、App 后端、登录鉴权、数据库与对象存储业务。</p>
+            </div>
+          </div>
+
+          <div class="scene-card">
+            <div class="scene-icon">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M4 7h16l-1.3 9.4a2 2 0 0 1-2 1.6H7.3a2 2 0 0 1-2-1.6L4 7Zm0 0 2-3h12l2 3" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="scene-title">电商系统 / SaaS</h3>
+              <p class="scene-desc">适用于商城、订单系统、会员系统、CRM、ERP 与在线服务平台。</p>
+            </div>
+          </div>
+
+          <div class="scene-card">
+            <div class="scene-icon">
+              <svg viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/>
+                <path d="M4 12h16M12 4a14 14 0 0 1 0 16M12 4a14 14 0 0 0 0 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="scene-title">海外业务 / 全球部署</h3>
+              <p class="scene-desc">适合跨境电商、海外站群、国际访问、全球节点部署与加速需求。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section faq-section" id="faq">
+      <div class="container">
+        <div class="section-head">
+          <h2>新手常见问题</h2>
+          <p>帮助你快速了解云服务器的使用与选购要点</p>
+        </div>
+
+        <div class="faq-list">
+          <div class="faq-item active">
+            <button class="faq-q" type="button">
+              <span>云服务器需要备案吗？</span>
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              如果你使用的是中国大陆节点，并用于公开访问的网站，通常需要进行备案；如果使用香港、海外节点，通常无需备案。若你只是做测试环境、开发环境，是否备案也取决于部署地区与访问方式。
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              <span>新手建议买什么配置？</span>
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              一般新手建站建议从 <strong>2 核 2G / 2 核 4G</strong> 起步；如果是 WordPress、企业站、个人博客，这样的配置已经够用。若是商城、接口服务或有较高并发，再考虑更高配置。
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              <span>Vultr 适合什么用户？</span>
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              Vultr 更适合需要海外节点、出海部署、开发测试、站群或不想走国内备案流程的用户。它的优势在于全球节点较多、部署快、支持<span class="highlight-red">支付宝</span>付款，对新手也比较友好。
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              <span>选包年包月还是按量付费？</span>
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              如果你的业务长期稳定运行，包年包月通常更划算；如果你只是临时测试、短期项目或者流量波动很大，按量付费会更灵活。建议先测试，再根据实际使用情况升级或调整计费模式。
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      © 2026 云服务器选型指南
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.faq-q').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        item.classList.toggle('active');
+      });
+    });
+  </script>
+</body>
+</html>
