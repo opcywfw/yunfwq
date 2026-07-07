@@ -935,23 +935,98 @@
       .scene-grid{grid-template-columns:1fr 1fr}
     }
 
+    
     @media (max-width: 680px){
-      .container{width:calc(100% - 24px)}
-      .brand{font-size:17px}
-      .consult-btn{min-width:auto;padding:0 16px;height:42px;font-size:14px}
-      .hero-copy h1{font-size:36px}
-      .hero-copy p{font-size:15px}
-      .btn{height:48px;padding:0 18px;font-size:16px}
-      .hero-features{gap:14px 18px;font-size:14px}
-      .hero-visual{height:330px}
-      .visual-stage{transform:scale(.62)}
-      .section-head h2{font-size:26px}
-      .cards{grid-template-columns:1fr}
-      .scene-grid{grid-template-columns:1fr}
-      .process-inner{padding:22px 18px}
-      .faq-q{font-size:16px;padding:18px}
-      .faq-a{padding:0 18px 18px}
-    }
+  /* 全局强制无横向滚动兜底 */
+  html,body {
+    overflow-x: hidden !important;
+  }
+  .container{width:calc(100% - 16px)}
+  /* 头部修复 */
+  .site-header .header-inner {
+    height: auto !important;
+    padding: 12px 0;
+    flex-wrap: wrap !important;
+    row-gap: 12px;
+  }
+  .brand {
+    font-size: clamp(16px, 4vw, 17px);
+    white-space: normal !important;
+    flex: 1 1 100%;
+  }
+  .nav {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .site-header {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  /* Hero 流式自适应，不缩放盒子，真实缩小尺寸 */
+  .hero-wrap {
+    overflow: visible;
+  }
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 16px 0 30px;
+    gap: 40px;
+    min-height: auto;
+  }
+  .hero-copy {
+    padding: 0;
+    text-align: center;
+    max-width: 100%;
+  }
+  /* 标题动态自适应字号，屏幕多宽字自动适配，不会超宽 */
+  .hero-copy h1 {
+    font-size: clamp(24px, 8vw, 32px) !important;
+    line-height: 1.35;
+    word-break: normal;
+  }
+  .hero-copy p {
+    font-size: 14px;
+    max-width: 100%;
+  }
+  .hero-actions {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    height: 48px;
+    padding: 0 22px;
+    font-size: 16px;
+  }
+  .hero-features {
+    justify-content: center;
+    gap: 20px;
+  }
+  /* 插画容器整体缩小，真实宽度变小，同步居中 */
+  .hero-visual {
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .visual-stage {
+    transform: scale(0.72) translateX(0);
+    width: auto;
+  }
+
+  /* 原有保留样式 */
+  .consult-btn{min-width:auto;padding:0 16px;height:42px;font-size:14px}
+  .section-head h2{font-size:26px}
+  .cards{grid-template-columns:1fr}
+  .scene-grid{grid-template-columns:1fr}
+  .process-inner{padding:22px 18px}
+  .faq-q{font-size:16px;padding:18px}
+  .faq-a{padding:0 18px 18px}
+}
+
+
+
+
+
+
   </style>
 </head>
 <body>
@@ -972,6 +1047,8 @@
           <a href="#guide">选型指南</a>
           <a href="#scenes">使用场景</a>
           <a href="#faq">常见问题</a>
+          <a href="https://wanwang.aliyun.com/website/xiaozhi?source=5176.29345612&userCode=xbifxhv7" target="_blank">AI建站</a>
+         
         </div>
     
     <style>
@@ -1441,7 +1518,7 @@
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      © 2026 云服务器选型指南
+      © 2026 <a href="https://kubk.net/" target="_blank">&nbsp;云服务器选型指南&nbsp;</a> |&nbsp; <a href="https://wanwang.aliyun.com/website/xiaozhi?source=5176.29345612&userCode=xbifxhv7" target="_blank">AI建站</a>
     </div>
   </footer>
 
